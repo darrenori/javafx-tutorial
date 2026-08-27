@@ -1,5 +1,10 @@
+import java.io.IOException;
+import java.util.Collections;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -12,54 +17,56 @@ import javafx.scene.layout.HBox;
  * and a label containing text from the speaker.
  */
 public class DialogBox extends HBox {
-
-    private Label text;
+    @FXML
+    private Label dialog;
+    @FXML
     private ImageView displayPicture;
 
-    private DialogBox(String message, Image displayImage) {
-        text = new Label(message);
-        displayPicture = new ImageView(displayImage);
+    private DialogBox(String text, Image img) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(MainWindow.class.getResource("/view/DialogBox.fxml"));
+            fxmlLoader.setController(this);
+            fxmlLoader.setRoot(this);
+            fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        // Styling the dialog box
-        text.setWrapText(true);
-        displayPicture.setFitWidth(100.0);
-        displayPicture.setFitHeight(100.0);
-        this.setAlignment(Pos.TOP_RIGHT);
-
-        this.getChildren().addAll(text, displayPicture);
+        dialog.setText(text);
+        displayPicture.setImage(img);
     }
 
     /**
      * Flips the dialog box such that the ImageView is on the left and text on the right.
      */
     private void flip() {
-        this.setAlignment(Pos.TOP_LEFT);
         ObservableList<Node> tmp = FXCollections.observableArrayList(this.getChildren());
-        FXCollections.reverse(tmp);
-        this.getChildren().setAll(tmp);
+        Collections.reverse(tmp);
+        getChildren().setAll(tmp);
+        setAlignment(Pos.TOP_LEFT);
     }
 
     /**
      * Returns a dialog box for something the user said, aligned to the right.
      *
-     * @param message What the user typed.
-     * @param displayImage The avatar of the user.
+     * @param text What the user typed.
+     * @param img The avatar of the user.
      * @return A right-aligned dialog box.
      */
-    public static DialogBox getUserDialog(String message, Image displayImage) {
-        return new DialogBox(message, displayImage);
+    public static DialogBox getUserDialog(String text, Image img) {
+        return new DialogBox(text, img);
     }
 
     /**
      * Returns a dialog box for something Duke replied, aligned to the left.
      *
-     * @param message What Duke replied.
-     * @param displayImage The avatar of Duke.
+     * @param text What Duke replied.
+     * @param img The avatar of Duke.
      * @return A left-aligned dialog box.
      */
-    public static DialogBox getDukeDialog(String message, Image displayImage) {
-        DialogBox dialogBox = new DialogBox(message, displayImage);
-        dialogBox.flip();
-        return dialogBox;
+    public static DialogBox getDukeDialog(String text, Image img) {
+        DialogBox db = new DialogBox(text, img);
+        db.flip();
+        return db;
     }
 }
