@@ -44,6 +44,28 @@ public class DialogBox extends HBox {
         Collections.reverse(tmp);
         getChildren().setAll(tmp);
         setAlignment(Pos.TOP_LEFT);
+        dialog.getStyleClass().add("reply-label");
+    }
+
+    /**
+     * Tints the bubble according to the command that produced the reply, so the
+     * kind of change Duke just made is visible at a glance.
+     */
+    private void changeDialogStyle(String commandType) {
+        switch (commandType) {
+        case "AddCommand":
+            dialog.getStyleClass().add("add-label");
+            break;
+        case "ChangeMarkCommand":
+            dialog.getStyleClass().add("marked-label");
+            break;
+        case "DeleteCommand":
+            dialog.getStyleClass().add("delete-label");
+            break;
+        default:
+            // Anything else keeps the default bubble colour.
+            break;
+        }
     }
 
     /**
@@ -62,11 +84,13 @@ public class DialogBox extends HBox {
      *
      * @param text What Duke replied.
      * @param img The avatar of Duke.
-     * @return A left-aligned dialog box.
+     * @param commandType The command Duke ran to produce the reply.
+     * @return A left-aligned dialog box tinted for that command.
      */
-    public static DialogBox getDukeDialog(String text, Image img) {
+    public static DialogBox getDukeDialog(String text, Image img, String commandType) {
         DialogBox db = new DialogBox(text, img);
         db.flip();
+        db.changeDialogStyle(commandType);
         return db;
     }
 }
