@@ -40,11 +40,16 @@ public class MainWindow extends AnchorPane {
     /**
      * Creates two dialog boxes, one echoing user input and the other containing
      * Duke's reply, and appends them to the dialog container. Clears the user
-     * input after processing.
+     * input after processing. Blank input is discarded without troubling Duke.
      */
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
+        if (input.isBlank()) {
+            userInput.clear();
+            return;
+        }
+
         String response = duke.getResponse(input);
         String commandType = duke.getCommandType();
         dialogContainer.getChildren().addAll(
