@@ -75,6 +75,9 @@ public class Main extends Application {
             handleUserInput();
         });
 
+        // Scroll down to the end every time dialogContainer's height changes
+        dialogContainer.heightProperty().addListener((observable) -> scrollPane.setVvalue(1.0));
+
         stage.setScene(scene);
         stage.show();
     }
