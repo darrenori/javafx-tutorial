@@ -5,6 +5,11 @@ public class Duke {
 
     private String commandType;
 
+    /**
+     * Runs Duke as a console app. The GUI is started from Launcher instead.
+     *
+     * @param args Command line arguments, which Duke does not use.
+     */
     public static void main(String[] args) {
         System.out.println("Hello!");
     }
