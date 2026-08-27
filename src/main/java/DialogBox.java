@@ -48,17 +48,6 @@ public class DialogBox extends HBox {
     }
 
     /**
-     * Returns a dialog box for something the user said, aligned to the right.
-     *
-     * @param text What the user typed.
-     * @param img The avatar of the user.
-     * @return A right-aligned dialog box.
-     */
-    public static DialogBox getUserDialog(String text, Image img) {
-        return new DialogBox(text, img);
-    }
-
-    /**
      * Tints the bubble according to the command that produced the reply, so the
      * kind of change Duke just made is visible at a glance.
      */
@@ -77,6 +66,17 @@ public class DialogBox extends HBox {
             // Anything else keeps the default bubble colour.
             break;
         }
+    }
+
+    /**
+     * Returns a dialog box for something the user said, aligned to the right.
+     *
+     * @param text What the user typed.
+     * @param img The avatar of the user.
+     * @return A right-aligned dialog box.
+     */
+    public static DialogBox getUserDialog(String text, Image img) {
+        return new DialogBox(text, img);
     }
 
     /**
